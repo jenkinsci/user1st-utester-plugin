@@ -1,0 +1,16 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:l="/lib/layout">
+    <l:layout>
+    	<st:include it="${it.project}" page="sidepanel.jelly"/>
+    	<l:main-panel>
+    		<h1>uTester Page Count Compliance Trend</h1>
+    		<div>
+    			<a href="../lastBuild/uTesterUrlListTask/">Last Compliance Check</a>
+    		</div>
+    		<br />
+    		<div>
+    			<img src="./complianceGraph?width=600&amp;height=440" width="600" height="440" />
+    		</div>
+    	</l:main-panel>
+    </l:layout>
+</j:jelly>

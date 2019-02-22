@@ -1,0 +1,83 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler"
+	xmlns:l="/lib/layout">
+	
+	<l:layout css="/plugin/user1st-utester-jenkins/css/bootstrap.min.css">
+		<st:include it="${it.build}" page="sidepanel.jelly" />
+		<div class="container-fluid">
+		<l:main-panel>
+			<j:set var="checkDone" value="${it.isTaskDone()}" />
+			<h1>${it.displayName}</h1>
+			<h2>Build #${it.buildNumber}'s Output: </h2>
+			<j:if test="${!checkDone}">
+				<br />
+				<h2>The uTester API is still processing the request. Please check
+					back later.</h2>
+			</j:if>
+			<j:if test="${checkDone}">
+				<j:set var="uTesterResult" value="${it.resultJSON}" />
+				<br />
+
+				<div class="row-fluid">
+
+						<div class="span6">
+							<h3>URL used: ${uTesterResult.url}</h3>
+							<h3>Average number of elements per page: ${it.averageElementCount}</h3>
+							<h3>Page Level Errors:</h3>
+
+							<table class="table table-bordered table-condensed table-hover">
+								<tbody>
+									<j:forEach items="${it.pageErrors}" var="pErrorVal"
+										varStatus="pvStat">
+										<tr>
+											<td>${pErrorVal}</td>
+										</tr>
+									</j:forEach>
+								</tbody>
+							</table>
+						</div>
+						<div class="span6 text-center">
+							<img
+								src="./complianceGraph?width=300&amp;height=300&amp;"
+								width="300" height="300" />
+						</div>
+
+				</div>
+				<br />
+				<div class="row-fluid">
+				<div class="span10">
+				<h2>Element Details</h2>
+
+				<table class="table table-bordered table-condensed table-hover">
+					<thead>
+						<tr>
+							<th >xpath</th>
+							<th >selector</th>
+							<th >errors</th>
+						</tr>
+					</thead>
+					<tbody>
+						<j:forEach items="${it.resultElements}" var="element">
+							<tr>
+								<td >${element.xpath}</td>
+								<td >${element.selector}</td>
+								<td >
+									<j:forEach items="${element.errors}" var="errorVal"
+										varStatus="vStat">
+										${errorVal}
+										<j:if test="${!vStat.last}">,</j:if>
+									</j:forEach>
+								</td>
+							</tr>
+						</j:forEach>
+					</tbody>
+				</table>
+				</div>
+				<div class="span2"></div>
+				</div>
+			</j:if>
+		
+		</l:main-panel>
+		</div>
+	</l:layout>
+</j:jelly>
