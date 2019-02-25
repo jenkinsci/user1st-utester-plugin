@@ -220,13 +220,17 @@ public class UrlListTaskAction implements Action {
 		
 		if(this.results != null && this.results.getData() != null) {
 			for(UrlListResultData pcrd: this.results.getData()) {
-				elements.addAll(Arrays.asList(pcrd.getElements()));
+				List<TaskResultElement> tempElements = Arrays.asList(pcrd.getElements());
+				for (TaskResultElement tre: tempElements) {
+					tre.setUrl(pcrd.getUrl());
+					elements.add(tre);
+				}
+				//elements.addAll(Arrays.asList(pcrd.getElements()));
 			}
 			
 			try {
 				ele = parser.parse(mapper.writeValueAsString(Arrays.stream(elements.toArray()).distinct().toArray())).getAsJsonArray();
 			} catch (JsonSyntaxException | JsonProcessingException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

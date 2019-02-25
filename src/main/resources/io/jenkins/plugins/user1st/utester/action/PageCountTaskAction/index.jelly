@@ -3,6 +3,12 @@
 	xmlns:l="/lib/layout">
 	
 	<l:layout css="/plugin/user1st-utester-jenkins/css/bootstrap.min.css">
+	<!-- <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"></link> -->
+	<link rel="stylesheet" href="${resURL}/plugin/user1st-utester-jenkins/css/jquery.dataTables.min.css"></link>
+	<!-- <script src="//code.jquery.com/jquery-2.2.4.min.js"></script> -->
+	<script src="${resURL}/plugin/user1st-utester-jenkins/js/jquery-2.2.4.min.js"></script>
+	<!-- <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script> -->
+	<script src="${resURL}/plugin/user1st-utester-jenkins/js/jquery.dataTables.min.js"></script>
 		<st:include it="${it.build}" page="sidepanel.jelly" />
 		<div class="container-fluid">
 		<l:main-panel>
@@ -37,8 +43,7 @@
 							</table>
 						</div>
 						<div class="span6 text-center">
-							<img
-								src="./complianceGraph?width=300&amp;height=300&amp;"
+							<img src="./complianceGraph?width=300&amp;height=300&amp;"
 								width="300" height="300" />
 						</div>
 
@@ -48,12 +53,13 @@
 				<div class="span10">
 				<h2>Element Details</h2>
 
-				<table class="table table-bordered table-condensed table-hover">
+				<table class="table table-bordered table-condensed table-hover" id="myTable">
 					<thead>
 						<tr>
 							<th >xpath</th>
 							<th >selector</th>
 							<th >errors</th>
+							<th >url</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -68,6 +74,7 @@
 										<j:if test="${!vStat.last}">,</j:if>
 									</j:forEach>
 								</td>
+								<td >${element.url}</td>
 							</tr>
 						</j:forEach>
 					</tbody>
@@ -79,5 +86,10 @@
 		
 		</l:main-panel>
 		</div>
+		<script>
+			$(document).ready( function () {
+	          $('#myTable').DataTable();
+	        } );
+		</script>
 	</l:layout>
 </j:jelly>

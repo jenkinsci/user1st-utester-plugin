@@ -21,6 +21,8 @@ public class TaskResultElement implements Serializable {
 	@JsonProperty("errors")
 	private String[] errors;
 	
+	private String url;
+	
 	public TaskResultElement() {}
 	
 	@JsonCreator
@@ -54,10 +56,18 @@ public class TaskResultElement implements Serializable {
 		this.errors = errors;
 	}
 
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
 	@Override
 	public String toString() {
 		return "TaskResultElement [xpath=" + xpath + ", selector=" + selector + ", errors=" + Arrays.toString(errors)
-				+ "]";
+				+ ", url=" + url + "]";
 	}
 
 	@Override
@@ -66,6 +76,7 @@ public class TaskResultElement implements Serializable {
 		int result = 1;
 		result = prime * result + Arrays.hashCode(errors);
 		result = prime * result + ((selector == null) ? 0 : selector.hashCode());
+		result = prime * result + ((url == null) ? 0 : url.hashCode());
 		result = prime * result + ((xpath == null) ? 0 : xpath.hashCode());
 		return result;
 	}
@@ -86,6 +97,11 @@ public class TaskResultElement implements Serializable {
 				return false;
 		} else if (!selector.equals(other.selector))
 			return false;
+		if (url == null) {
+			if (other.url != null)
+				return false;
+		} else if (!url.equals(other.url))
+			return false;
 		if (xpath == null) {
 			if (other.xpath != null)
 				return false;
@@ -93,7 +109,5 @@ public class TaskResultElement implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
 
 }
