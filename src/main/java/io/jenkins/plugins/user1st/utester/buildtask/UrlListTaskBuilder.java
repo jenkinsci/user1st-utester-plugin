@@ -48,6 +48,8 @@ public class UrlListTaskBuilder extends Builder implements SimpleBuildStep {
 	private final String urlsWhiteList;;
 	private final float complianceMinimum;
 	
+	private final int fetchResponseTimeout;
+	
 	private final boolean allowSimultaneousLogins;
 	private final String loginFlowJson;
 	private final boolean useRunner;
@@ -58,7 +60,7 @@ public class UrlListTaskBuilder extends Builder implements SimpleBuildStep {
 
 	@DataBoundConstructor
 	public UrlListTaskBuilder(String initialUrl, String urlsWhiteList, RuleString[] rulesList,
-			float complianceMinimum, boolean allowSimultaneousLogins, String loginFlowJson, boolean useRunner) {
+			float complianceMinimum, boolean allowSimultaneousLogins, String loginFlowJson, boolean useRunner, int fetchResponseTimeout) {
 		this.initialUrl = initialUrl;
 		this.urlsWhiteList = urlsWhiteList;
 		this.rulesList = rulesList;
@@ -66,6 +68,7 @@ public class UrlListTaskBuilder extends Builder implements SimpleBuildStep {
 		this.allowSimultaneousLogins = allowSimultaneousLogins;
 		this.loginFlowJson = loginFlowJson;
 		this.useRunner = useRunner;
+		this.fetchResponseTimeout = fetchResponseTimeout;
 	}
 	
 	public boolean isAllowSimultaneousLogins() {
@@ -94,6 +97,10 @@ public class UrlListTaskBuilder extends Builder implements SimpleBuildStep {
 
 	public float getComplianceMinimum() {
 		return complianceMinimum;
+	}
+	
+	public int getFetchResponseTimeout() {
+		return fetchResponseTimeout;
 	}
 
 	@Override
@@ -164,14 +171,14 @@ public class UrlListTaskBuilder extends Builder implements SimpleBuildStep {
 			String taskID = ((UrlListRequestData) requestResponse.getData()).getTaskID();
 
 			int timeoutCount = 0;
-			int maxRetry = 24;
+			int maxRetry = this.fetchResponseTimeout;
 			boolean isDone = false;
 
 			listener.getLogger().println("--- Checking Task Status ---");
 
 			while (!isDone && timeoutCount < maxRetry) {
 				isDone = this.isTaskDone(listener, taskID);
-				Thread.sleep(5000);
+				Thread.sleep(1000);
 				timeoutCount++;
 			}
 

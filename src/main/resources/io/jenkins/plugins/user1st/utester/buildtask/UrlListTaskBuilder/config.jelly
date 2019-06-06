@@ -24,6 +24,10 @@
 	    <f:entry title="${%MinComp}" field="complianceMinimum" default="0.50">
 	    	<f:number />
 	    </f:entry>
+	    
+	    <f:entry title="${%FetchResponseTimeout}" field="fetchResponseTimeout" default="120">
+	    	<f:number />
+	    </f:entry>
 	
 	</f:advanced>
     
